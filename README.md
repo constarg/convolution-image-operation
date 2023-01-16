@@ -1,2 +1,2 @@
-# blur-image-oparation
+# convolution-image-oparation
 This repository is for an exercise in the university. 
