@@ -51,7 +51,7 @@
  * This function initializes the original 
  * array with zeros.
  */
-void initialize_org_array()
+static void initialize_org_array()
 {
     for (int i = 0; i < ARRAY_R_EX; i++) {
         for (int j = 0; j < ARRAY_C_EX; j++) {
@@ -67,7 +67,7 @@ void initialize_org_array()
  * array. We ignore the perimeter and fill
  * only the 128x128 values of 130x130.
  */
-void create_128x128_array()
+static void create_128x128_array()
 {
     srand(0);
     for (int i = 1; i < ARRAY_R; i++) {
