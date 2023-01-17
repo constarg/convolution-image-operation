@@ -22,14 +22,48 @@
 #define MEMORY_BASE_ADDR (0xFFFF0000)
 // The location of the original array.
 // The original array of 128x128 elements.
-#define ORIGINAL_ARRAY_LOC (0xFFFF0001)
+#define ORIGINAL_ARRAY_LOC (0xFFFF0003)
 // The location of the product array.
 #define PRODUCT_ARRAY_LOC  (ORIGINAL_ARRAY_LOC + ARRAY_SIZE_EX + 1)
 
 /**
  * Variables
  */
-#define STATUS (*(volatile uint8_t *) MEMORY_BASE_ADDR)
+/**
+ * STATUS_CPU0 is the status of cpu0
+ * *STATUS_CPU0 can have the below values.
+ * 0 = not done.
+ * 1 = done array generation
+ * 2 = done processing.
+ */
+#define STATUS_CPU0 (*(volatile uint8_t *) MEMORY_BASE_ADDR)
+/**
+ * STATUS_CPU1 is the status of the cpu1.
+ * STATUS_CPU1 can have the below values
+ * 0 = not done
+ * 1 = done processing.
+ */
+#define STATUS_CPU1 (*(volatile uint8_t *) (MEMORY_BASE_ADDR + 1))
+
+// This variable is used to check if needded to reset status bits.
+/**
+ * STATUS_RESET can have the below values
+ * 0 = do not reset.
+ * 1 = must reset.
+ */
+#define STATUS_RESET (*(volatile uint8_t *) (MEMORY_BASE_ADDR + 2))
+
+// Variable values
+// values for cpu0 status.
+#define CPU0_DONE_GEN  1 // cpu0 generates the 128x128 array.
+#define CPU0_DONE_PROC 2 // cpu0 is done with the processing.
+
+// values for cpu1 status.
+#define CPU1_DONE_PROC 1 // cpu1 is done with the processing.
+
+// values for reset variable.
+#define INIT_RESET 0
+#define MUST_RESET 1
 
 /**
  * Function macros
@@ -81,11 +115,11 @@ static void create_128x128_array()
 
 int main()
 {
-    STATUS = 0;
+    // TODO - reset values of status bits if needed
     initialize_org_array();
     // Make the original array.
     create_128x128_array();
 
     // start processing.
-    STATUS = 1;
+    STATUS_CPU0 = CPU0_DONE_GEN;
 }
