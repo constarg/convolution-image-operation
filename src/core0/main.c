@@ -1,86 +1,15 @@
-#include "xscutimer.h"
+#define CPU0
+#include "convolution.h"
 
 #include "stdlib.h"
 #include "stdio.h"
 
-/*
- * Sizes
- */
-// The size of the origianl array.
-#define ARRAY_R_EX 130 // original array rows extended
-#define ARRAY_C_EX 130 // original array columns extended
-#define ARRAY_SIZE_EX (ARRAY_R_EX * ARRAY_C_EX)
-// The size of the product array.
-#define ARRAY_R 128 // array rows
-#define ARRAY_C 128 // array columns
-#define ARRAY_SIZE (ARRAY_R * ARRAY_C)
+#include "platform.h"
+#include "xil_printf.h"
 
-/*
- * Memory locations
- */
-// 0xFFFF000 is the base address for the memory.
-#define MEMORY_BASE_ADDR (0xFFFF0000)
-// The location of the original array.
-// The original array of 128x128 elements.
-#define ORIGINAL_ARRAY_LOC (0xFFFF0003)
-// The location of the product array.
-#define PRODUCT_ARRAY_LOC  (ORIGINAL_ARRAY_LOC + ARRAY_SIZE_EX + 1)
+#include "xscutimer.h"
 
-/**
- * Variables
- */
-/**
- * STATUS_CPU0 is the status of cpu0
- * *STATUS_CPU0 can have the below values.
- * 0 = not done.
- * 1 = done array generation
- * 2 = done processing.
- */
-#define STATUS_CPU0 (*(volatile uint8_t *) MEMORY_BASE_ADDR)
-/**
- * STATUS_CPU1 is the status of the cpu1.
- * STATUS_CPU1 can have the below values
- * 0 = not done
- * 1 = done processing.
- */
-#define STATUS_CPU1 (*(volatile uint8_t *) (MEMORY_BASE_ADDR + 1))
-
-// This variable is used to check if needded to reset status bits.
-/**
- * STATUS_RESET can have the below values
- * 0 = do not reset.
- * 1 = must reset.
- */
-#define STATUS_RESET (*(volatile uint8_t *) (MEMORY_BASE_ADDR + 2))
-
-// Variable values
-// values for cpu0 status.
-#define CPU0_DONE_GEN  1 // cpu0 generates the 128x128 array.
-#define CPU0_DONE_PROC 2 // cpu0 is done with the processing.
-
-// values for cpu1 status.
-#define CPU1_DONE_PROC 1 // cpu1 is done with the processing.
-
-// values for reset variable.
-#define INIT_RESET 0
-#define MUST_RESET 1
-
-/**
- * Function macros
- */
-/*
- * This macro function is responsible to assign a value into the right index
- * of the original array.
- */
-#define ORIGINAL_ARRAY_INDEX(I, J) \
-    *((volatile uint8_t *) (ORIGINAL_ARRAY_LOC + (ARRAY_C_EX * I) + J))
-/*
- * This macro function is responsible to assign a value into the right index
- * of the product array.
- */
-#define PRODUCT_ARRAY_INDEX(I, J) \
-    *((volatile uint8_t *) (PRODUCT_ARRAY_LOC + (ARRAY_C * I) + J))
-
+/
 /**
  * This function initializes the original 
  * array with zeros.
@@ -112,14 +41,54 @@ static void create_128x128_array()
     }
 }
 
+static void calculate_array()
+{
+	uint8_t counter = 0;
+    for (int i = 1; i < ARRAY_R; i++) {
+        for (int j = 1; j < ARRAY_C; j++) {
+        	PRODUCT_ARRAY_INDEX(i, j) = ORIGINAL_ARRAY_INDEX(i - 1,j - 1)  * (-1) +
+										ORIGINAL_ARRAY_INDEX(i - 1,j) 	   * (-1) +
+										ORIGINAL_ARRAY_INDEX(i - 1, j + 1) * (-1) +
+										ORIGINAL_ARRAY_INDEX(i, j - 1)     * (-1) +
+										ORIGINAL_ARRAY_INDEX(i, j) 		   * (9)  +
+										ORIGINAL_ARRAY_INDEX(i, j + 1)     * (-1) +
+										ORIGINAL_ARRAY_INDEX(i + 1, j - 1) * (-1) +
+										ORIGINAL_ARRAY_INDEX(i + 1, j)     * (-1) +
+										ORIGINAL_ARRAY_INDEX(i + 1, j + 1) * (-1);
+        	++counter;
+
+            // stop cpu0, at the center of the array.
+        	if (counter == 8192) return;
+        }
+    }
+}
 
 int main()
 {
-    // TODO - reset values of status bits if needed
-    initialize_org_array();
+	init_platform();
+    // Disable cache on OCM (on - chip - memory). 
+	Xil_SetTlbAttributes(0xFFFF0000, 0x14de2);
+
+	if (STATUS_RESET == MUST_RESET ||
+		STATUS_CPU0 != 0) {
+		STATUS_CPU0 = 0;
+		STATUS_CPU1 = 0;
+		STATUS_RESET = 0;
+	}
+
+	initialize_org_array();
     // Make the original array.
     create_128x128_array();
+    printf("[*] 128x128 array successfully created...\n");
 
     // start processing.
     STATUS_CPU0 = CPU0_DONE_GEN;
+
+    // start calculation.
+    calculate_array();
+
+    while (STATUS_CPU1 != CPU1_DONE_PROC);
+    printf("[*] 128x128 convolution matrix is done...\n");
+
+    cleanup_platform();
 }
