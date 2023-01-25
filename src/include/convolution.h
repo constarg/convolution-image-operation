@@ -83,7 +83,6 @@
 #define PRODUCT_ARRAY_INDEX(I, J) \
     (*(volatile uint8_t *) (PRODUCT_ARRAY_LOC + (ARRAY_C * I) + J))
 
-
 /**
  * Below macro functions is responsible for finding the
  * element that is requested for the neighbour pixels.
@@ -92,30 +91,30 @@
  * array.
  */
 #define LEFT_TOP_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I - 1, J - 1)
+	ORIGINAL_ARRAY_INDEX((I - 1), (J - 1))
 
 #define MIDDLE_TOP_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I - 1, J)
+	ORIGINAL_ARRAY_INDEX((I - 1), (J))
 
 #define RIGHT_TOP_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I - 1, J + 1)
+	ORIGINAL_ARRAY_INDEX((I - 1), (J + 1))
 
 #define LEFT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I, J - 1)
+	ORIGINAL_ARRAY_INDEX((I), (J - 1))
 
 #define MIDDLE_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I, J)
+	ORIGINAL_ARRAY_INDEX((I), (J))
 
 #define RIGHT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I, J + 1)
+	ORIGINAL_ARRAY_INDEX((I), (J + 1))
 
 #define BOTTOM_LEFT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I + 1, J - 1)
+	ORIGINAL_ARRAY_INDEX((I + 1), (J - 1))
 
 #define BOTTOM_MIDDLE_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I + 1, J)
+	ORIGINAL_ARRAY_INDEX((I + 1), (J))
 
 #define BOTTOM_RIGHT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX(I + 1, J + 1)
+	ORIGINAL_ARRAY_INDEX((I + 1), (J + 1))
 
 #endif

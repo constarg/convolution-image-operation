@@ -1,4 +1,3 @@
-#define CPU1
 #include "convolution.h"
 
 #include "stdlib.h"
@@ -11,11 +10,11 @@ static void calculate_array()
 {
     for (int i = 65; i <= ARRAY_R; i++) {
         for (int j = 1; j <= ARRAY_C; j++) {
-        	PRODUCT_ARRAY_INDEX(i - 1, j - 1) = LEFT_TOP_PIXEL(i,j)       * (-1) +
+            PRODUCT_ARRAY_INDEX(i - 1, j - 1) = LEFT_TOP_PIXEL(i,j)       * (-1) +
                                                 MIDDLE_TOP_PIXEL(i, j)    * (-1) +
                                                 RIGHT_TOP_PIXEL(i, j)     * (-1) +
                                                 LEFT_PIXEL(i, j)          * (-1) +
-                                                MIDDLE_PIXEL(i, j) 		  * (9)  +
+                                                MIDDLE_PIXEL(i, j)        * (9)  +
                                                 RIGHT_PIXEL(i, j)         * (-1) +
                                                 BOTTOM_LEFT_PIXEL(i, j)   * (-1) +
                                                 BOTTOM_MIDDLE_PIXEL(i, j) * (-1) +
