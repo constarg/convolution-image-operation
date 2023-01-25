@@ -13,6 +13,8 @@
 #define ARRAY_C 128 // array columns
 #define ARRAY_SIZE (ARRAY_R * ARRAY_C)
 
+//#define ARRAY_CPU1_OFSET (ARRAY_SIZE/2 + 0x207E)
+
 /*
  * Memory locations
  */
@@ -20,18 +22,10 @@
 #define MEMORY_BASE_ADDR (0xFFFF0000)
 // The location of the original array.
 // The original array of 128x128 elements.
-#ifdef CPU0
-// The original array for the cpu0
-#define ORIGINAL_ARRAY_LOC (0xFFFF0003)
-#else
-// The original array for the cpu1
-// The difference is that in cpu1 the array start where the cpu0 stops, in the center.
-#define ORIGINAL_ARRAY_CPU1_OFFSET 8191
-#define ORIGINAL_ARRAY_LOC (0xFFFF0003 + ORIGINAL_ARRAY_CPU1_OFFSET)
-#endif
-
+#define ORIGINAL_ARRAY_ADDR (0xFFFF0003)
+#define ORIGINAL_ARRAY_LOC (ORIGINAL_ARRAY_ADDR)
 // The location of the product array.
-#define PRODUCT_ARRAY_LOC  (ORIGINAL_ARRAY_LOC + ARRAY_SIZE_EX + 1)
+#define PRODUCT_ARRAY_LOC  (ORIGINAL_ARRAY_ADDR + ARRAY_SIZE_EX + 1)
 
 /**
  * Variables
@@ -43,7 +37,7 @@
  * 1 = done array generation
  * 2 = done processing.
  */
-#define STATUS_CPU0 *((volatile uint8_t *) MEMORY_BASE_ADDR)
+#define STATUS_CPU0 (*(volatile uint8_t *) MEMORY_BASE_ADDR)
 
 /**
  * STATUS_CPU1 is the status of the cpu1.
@@ -51,7 +45,7 @@
  * 0 = not done
  * 1 = done processing.
  */
-#define STATUS_CPU1 *((volatile uint8_t *) (MEMORY_BASE_ADDR + 1))
+#define STATUS_CPU1 (*(volatile uint8_t *) (MEMORY_BASE_ADDR + 1))
 
 // This variable is used to check if needed to reset status bits.
 /**
@@ -59,7 +53,7 @@
  * 0 = do not reset.
  * 1 = must reset.
  */
-#define STATUS_RESET *((volatile uint8_t *) (MEMORY_BASE_ADDR + 2))
+#define STATUS_RESET (*(volatile uint8_t *) (MEMORY_BASE_ADDR + 2))
 
 // Variable values
 // values for cpu0 status.
@@ -81,12 +75,47 @@
  * of the original array.
  */
 #define ORIGINAL_ARRAY_INDEX(I, J) \
-    *((volatile uint8_t *) (ORIGINAL_ARRAY_LOC + (ARRAY_C_EX * I) + J))
+    (*(volatile uint8_t *) (ORIGINAL_ARRAY_LOC + (ARRAY_C_EX * I) + J))
 /*
  * This macro function is responsible to assign a value into the right index
  * of the product array.
  */
 #define PRODUCT_ARRAY_INDEX(I, J) \
-    *((volatile uint8_t *) (PRODUCT_ARRAY_LOC + (ARRAY_C * I) + J))
+    (*(volatile uint8_t *) (PRODUCT_ARRAY_LOC + (ARRAY_C * I) + J))
+
+
+/**
+ * Below macro functions is responsible for finding the
+ * element that is requested for the neighbour pixels.
+ *
+ * All the below functions are targeting the original
+ * array.
+ */
+#define LEFT_TOP_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I - 1, J - 1)
+
+#define MIDDLE_TOP_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I - 1, J)
+
+#define RIGHT_TOP_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I - 1, J + 1)
+
+#define LEFT_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I, J - 1)
+
+#define MIDDLE_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I, J)
+
+#define RIGHT_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I, J + 1)
+
+#define BOTTOM_LEFT_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I + 1, J - 1)
+
+#define BOTTOM_MIDDLE_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I + 1, J)
+
+#define BOTTOM_RIGHT_PIXEL(I, J) \
+	ORIGINAL_ARRAY_INDEX(I + 1, J + 1)
 
 #endif
