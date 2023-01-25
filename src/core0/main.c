@@ -117,7 +117,7 @@ int main(void)
         STATUS_CPU0 = 0;
         STATUS_CPU1 = 0;
         STATUS_RESET = 0;
-	}
+    }
 
     initialize_org_array();
 
