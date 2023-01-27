@@ -107,7 +107,6 @@ int main(void)
     uint time;
     XScuTimer timer;
     if (configure_timer(&timer) != 0) return -1;
-    XScuTimer_Start(&timer);
 
     init_platform();
     Xil_SetTlbAttributes(0xFFFF0000, 0x14de2);
@@ -128,14 +127,16 @@ int main(void)
     // start processing.
     STATUS_CPU0 = CPU0_DONE_GEN;
 
+    XScuTimer_Start(&timer);
     // start calculation.
     calculate_array();
 
     while (STATUS_CPU1 != CPU1_DONE_PROC);
-    printf("[*] 128x128 convolution matrix is done...\n");
-
     // stop timer.
     XScuTimer_Stop(&timer);
+
+    printf("[*] 128x128 convolution matrix is done...\n");
+
     // get the value.
     time = XScuTimer_GetCounterValue(&timer);
     time += time * 1/2; // correct the calculation.

@@ -13,8 +13,6 @@
 #define ARRAY_C 128 // array columns
 #define ARRAY_SIZE (ARRAY_R * ARRAY_C)
 
-//#define ARRAY_CPU1_OFSET (ARRAY_SIZE/2 + 0x207E)
-
 /*
  * Memory locations
  */
