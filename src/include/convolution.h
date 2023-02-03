@@ -1,6 +1,9 @@
 #ifndef CONVOLUTION
 #define CONVOLUTION
 
+
+#define CPU_HERZ 667000000
+
 /*
  * Sizes
  */

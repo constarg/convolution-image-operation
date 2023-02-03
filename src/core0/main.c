@@ -138,8 +138,7 @@ int main(void)
     printf("[*] 128x128 convolution matrix is done...\n");
 
     // get the value.
-    time = XScuTimer_GetCounterValue(&timer);
-    time += time * 1/2; // correct the calculation.
+    time = XScuTimer_GetCounterValue(&timer) * 1.5;
 
     printf("time: %d\n", time);
     cleanup_platform();
