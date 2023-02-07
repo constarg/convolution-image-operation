@@ -75,14 +75,14 @@
  * This macro function is responsible to assign a value into the right index
  * of the original array.
  */
-#define ORIGINAL_ARRAY_INDEX(I, J) \
-    (*(volatile uint8_t *) (ORIGINAL_ARRAY_LOC + (ARRAY_C_EX * I) + J))
+#define ORIGINAL_ARRAY_INDEX(i, j) \
+    (*(volatile uint8_t *) (ORIGINAL_ARRAY_LOC + (ARRAY_C_EX * (i)) + (j)))
 /*
  * This macro function is responsible to assign a value into the right index
  * of the product array.
  */
-#define PRODUCT_ARRAY_INDEX(I, J) \
-    (*(volatile uint8_t *) (PRODUCT_ARRAY_LOC + (ARRAY_C * I) + J))
+#define PRODUCT_ARRAY_INDEX(i, j) \
+    (*(volatile uint8_t *) (PRODUCT_ARRAY_LOC + (ARRAY_C * (i)) + (j)))
 
 /**
  * Below macro functions is responsible for finding the
@@ -91,31 +91,31 @@
  * All the below functions are targeting the original
  * array.
  */
-#define LEFT_TOP_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I - 1), (J - 1))
+#define LEFT_TOP_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i - 1, j - 1)
 
-#define MIDDLE_TOP_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I - 1), (J))
+#define MIDDLE_TOP_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i - 1, j)
 
-#define RIGHT_TOP_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I - 1), (J + 1))
+#define RIGHT_TOP_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i - 1, j + 1)
 
-#define LEFT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I), (J - 1))
+#define LEFT_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i, j - 1)
 
-#define MIDDLE_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I), (J))
+#define MIDDLE_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i, j)
 
-#define RIGHT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I), (J + 1))
+#define RIGHT_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i, j + 1)
 
-#define BOTTOM_LEFT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I + 1), (J - 1))
+#define BOTTOM_LEFT_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i + 1, j - 1)
 
-#define BOTTOM_MIDDLE_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I + 1), (J))
+#define BOTTOM_MIDDLE_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i + 1, J)
 
-#define BOTTOM_RIGHT_PIXEL(I, J) \
-	ORIGINAL_ARRAY_INDEX((I + 1), (J + 1))
+#define BOTTOM_RIGHT_PIXEL(i, j) \
+	ORIGINAL_ARRAY_INDEX(i + 1, j + 1)
 
 #endif
