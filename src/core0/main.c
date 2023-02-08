@@ -12,7 +12,7 @@
  * This function initializes the original
  * array with zeros.
  */
-static void initialize_org_array()
+static inline void initialize_org_array()
 {
     for (int i = 0; i < ARRAY_R_EX; i++) {
         for (int j = 0; j < ARRAY_C_EX; j++) {
@@ -28,7 +28,7 @@ static void initialize_org_array()
  * array. We ignore the perimeter and fill
  * only the 128x128 values of 130x130.
  */
-static void create_128x128_array(XScuTimer *timer)
+static inline void create_128x128_array(XScuTimer *timer)
 {
     srand((uint) XScuTimer_GetCounterValue(timer));
     for (int i = 1; i <= ARRAY_R; i++) {
@@ -39,7 +39,7 @@ static void create_128x128_array(XScuTimer *timer)
     }
 }
 
-static void calculate_array()
+static inline void calculate_array()
 {
     int counter = 0;
     for (int i = 1; i <= ARRAY_R; i++) {
@@ -85,7 +85,7 @@ static void verify(int i, int j)
 }
 
 
-static int configure_timer(XScuTimer *timer)
+static inline int configure_timer(XScuTimer *timer)
 {
     XScuTimer_Config *config;
     XScuTimer *timer_instance = timer;

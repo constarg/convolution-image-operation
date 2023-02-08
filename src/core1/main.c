@@ -6,7 +6,7 @@
 #include "platform.h"
 #include "xil_printf.h"
 
-static void calculate_array()
+static inline void calculate_array()
 {
     for (int i = 65; i <= ARRAY_R; i++) {
         for (int j = 1; j <= ARRAY_C; j++) {
