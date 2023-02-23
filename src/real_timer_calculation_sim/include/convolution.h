@@ -4,7 +4,7 @@
 /**
  * timer load.
  */
-#define TIMER_LOAD 666666667
+#define TIMER_LOAD 0x27BC86AB
 
 
 /*
