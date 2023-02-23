@@ -17,7 +17,7 @@ static inline void initialize_org_array()
     for (int i = 0; i < ARRAY_R_EX; i++) {
         for (int j = 0; j < ARRAY_C_EX; j++) {
             // put zero into the current index.
-            ORIGINAL_ARRAY_INDEX(i,j) = (uint8_t) 0;
+            ORIGINAL_ARRAY_INDEX(i, j) = (uint8_t) 0;
         }
     }
 }
@@ -34,7 +34,7 @@ static inline void create_128x128_array(XScuTimer *timer)
     for (int i = 1; i <= ARRAY_R; i++) {
         for (int j = 1; j <= ARRAY_C; j++) {
             // Assign a random value into the current index.
-            ORIGINAL_ARRAY_INDEX(i,j) = (uint8_t) (rand() % (255 - 0 + 1)) + 0;
+            ORIGINAL_ARRAY_INDEX(i, j) = (uint8_t)(rand() % (255 - 0 + 1)) + 0;
         }
     }
 }
@@ -44,7 +44,7 @@ static inline void calculate_array()
     int counter = 0;
     for (int i = 1; i <= ARRAY_R; i++) {
         for (int j = 1; j <= ARRAY_C; j++) {
-            PRODUCT_ARRAY_INDEX(i - 1, j - 1) = LEFT_TOP_PIXEL(i,j)       * (-1) +
+            PRODUCT_ARRAY_INDEX(i - 1, j - 1) = LEFT_TOP_PIXEL(i, j)      * (-1) +
                                                 MIDDLE_TOP_PIXEL(i, j)    * (-1) +
                                                 RIGHT_TOP_PIXEL(i, j)     * (-1) +
                                                 LEFT_PIXEL(i, j)          * (-1) +
@@ -55,7 +55,7 @@ static inline void calculate_array()
                                                 BOTTOM_RIGHT_PIXEL(i, j)  * (-1);
             ++counter;
             // stop cpu0, at the center of the array.
-            if (counter == (ARRAY_SIZE/2)) return;
+            if (counter == (ARRAY_SIZE / 2)) return;
         }
     }
 }
@@ -63,7 +63,7 @@ static inline void calculate_array()
 // used to verify the data.
 static void verify(int i, int j)
 {
-    uint8_t e1 = LEFT_TOP_PIXEL(i,j);
+    uint8_t e1 = LEFT_TOP_PIXEL(i, j);
     uint8_t e2 = MIDDLE_TOP_PIXEL(i, j);
     uint8_t e3 = RIGHT_TOP_PIXEL(i, j);
     uint8_t e4 = LEFT_PIXEL(i, j);
@@ -91,7 +91,7 @@ static inline int configure_timer(XScuTimer *timer)
     XScuTimer *timer_instance = timer;
     int status;
 
-    config = XScuTimer_LookupConfig (XPAR_PS7_SCUTIMER_0_DEVICE_ID);
+    config = XScuTimer_LookupConfig(XPAR_PS7_SCUTIMER_0_DEVICE_ID);
 
     status = XScuTimer_CfgInitialize(timer_instance, config, config->BaseAddr);
     if (status != XST_SUCCESS) return -1;

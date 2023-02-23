@@ -92,30 +92,30 @@
  * array.
  */
 #define LEFT_TOP_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i - 1, j - 1)
+    ORIGINAL_ARRAY_INDEX(i - 1, j - 1)
 
 #define MIDDLE_TOP_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i - 1, j)
+    ORIGINAL_ARRAY_INDEX(i - 1, j)
 
 #define RIGHT_TOP_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i - 1, j + 1)
+    ORIGINAL_ARRAY_INDEX(i - 1, j + 1)
 
 #define LEFT_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i, j - 1)
+    ORIGINAL_ARRAY_INDEX(i, j - 1)
 
 #define MIDDLE_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i, j)
+    ORIGINAL_ARRAY_INDEX(i, j)
 
 #define RIGHT_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i, j + 1)
+    ORIGINAL_ARRAY_INDEX(i, j + 1)
 
 #define BOTTOM_LEFT_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i + 1, j - 1)
+    ORIGINAL_ARRAY_INDEX(i + 1, j - 1)
 
 #define BOTTOM_MIDDLE_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i + 1, J)
+    ORIGINAL_ARRAY_INDEX(i + 1, J)
 
 #define BOTTOM_RIGHT_PIXEL(i, j) \
-	ORIGINAL_ARRAY_INDEX(i + 1, j + 1)
+    ORIGINAL_ARRAY_INDEX(i + 1, j + 1)
 
 #endif
