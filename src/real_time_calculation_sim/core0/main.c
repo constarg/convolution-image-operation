@@ -66,29 +66,6 @@ static void calculate_array()
     }
 }
 
-static void verify(int i, int j)
-{
-    uint8_t e1 = LEFT_TOP_PIXEL(i, j);
-    uint8_t e2 = MIDDLE_TOP_PIXEL(i, j);
-    uint8_t e3 = RIGHT_TOP_PIXEL(i, j);
-    uint8_t e4 = LEFT_PIXEL(i, j);
-    uint8_t e5 = MIDDLE_PIXEL(i, j);
-    uint8_t e6 = RIGHT_PIXEL(i, j);
-    uint8_t e7 = BOTTOM_LEFT_PIXEL(i, j);
-    uint8_t e8 = BOTTOM_MIDDLE_PIXEL(i, j);
-    uint8_t e9 = BOTTOM_RIGHT_PIXEL(i, j);
-
-    printf("Array to calculate: \n");
-    printf("[ -1, -1, -1 ]  [%d,   %d,   %d   ]\n"
-           "[ -1,  9, -1 ]  [%d,   %d,   %d   ]\n"
-           "[ -1, -1, -1 ]  [%d,   %d,   %d   ]\n", e1, e2, e3, e4, e5, e6, e7, e8, e9);
-
-    e1 = PRODUCT_ARRAY_INDEX(i - 1, j - 1);
-
-    printf("Result [%d, %d]:\n", i - 1, j - 1);
-    printf("%d\n", e1);
-}
-
 // The interrupt service routine.
 static void blur_filder_isr(void *timer_arg)
 {

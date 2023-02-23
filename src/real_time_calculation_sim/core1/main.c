@@ -21,7 +21,7 @@ static void calculate_array()
                                                 MIDDLE_TOP_PIXEL(i, j)    * (-1) +
                                                 RIGHT_TOP_PIXEL(i, j)     * (-1) +
                                                 LEFT_PIXEL(i, j)          * (-1) +
-                                                MIDDLE_PIXEL(i, j)        * (9) +
+                                                MIDDLE_PIXEL(i, j)        * (9)  +
                                                 RIGHT_PIXEL(i, j)         * (-1) +
                                                 BOTTOM_LEFT_PIXEL(i, j)   * (-1) +
                                                 BOTTOM_MIDDLE_PIXEL(i, j) * (-1) +
@@ -34,7 +34,7 @@ static void calculate_array()
 // The interrupt service routine.
 static void blur_filder_isr(void *timer_arg)
 {
-    // while the cpu0 is not done with the array
+    // wait for the cpu0 to generate the new array
     while (STATUS_CPU0 != CPU0_DONE_GEN);
 
     calculate_array();
