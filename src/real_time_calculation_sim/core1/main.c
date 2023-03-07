@@ -38,6 +38,9 @@ static void blur_filder_isr(void *timer_arg)
     while (STATUS_CPU0 != CPU0_DONE_GEN);
 
     calculate_array();
+    // reset status
+    STATUS_CPU0 = 0;
+    // inform the other proccessor
     STATUS_CPU1 = CPU1_DONE_PROC;
 }
 

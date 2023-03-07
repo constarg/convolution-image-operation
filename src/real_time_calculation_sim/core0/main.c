@@ -83,6 +83,8 @@ static void blur_filder_isr(void *timer_arg)
     calculate_array();
 
     while (STATUS_CPU1 != CPU1_DONE_PROC);
+    // resat status.
+    STATUS_CPU1 = 0;
     printf("Done with calculations of one image\n");
 }
 
